@@ -1,6 +1,7 @@
 <?php
 
-$db = new MySqli('localhost', 'nextsurvey', 'wd4040wd', 'nextsurvey');
+$iniArray = parse_ini_file("nextsurvey.ini.php");
+$db = new MySqli($iniArray['host'], $iniArray['username'], $iniArray['password'], $iniArray['database']);
 
 $action = (!empty($_POST['action'])) ? $_POST['action'] : '';
 
