@@ -1,0 +1,102 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Apr 15, 2014, 3:58:33 PM
+    Author     : aljordan
+*/
+
+.btn-oldstyle {
+  background-color: #095c95;
+  border-color: #095c95;
+  color: #fff;
+  text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+  background-color: #085082;
+  background-image: -moz-linear-gradient(top,#095c95,#063e65);
+  background-image: -webkit-gradient(linear,0 0,0 100%,from(#095c95),to(#063e65));
+  background-image: -webkit-linear-gradient(top,#095c95,#063e65);
+  background-image: -o-linear-gradient(top,#095c95,#063e65);
+  background-image: linear-gradient(to bottom,#095c95,#063e65);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff095c95', endColorstr='#ff063e64', GradientType=0);
+  border-color: #063e65 #063e65 #02121d;
+  border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+}
+.btn-oldstyle:hover,
+.btn-oldstyle:focus {
+  text-decoration: none;
+  background-position: 0 -15px;
+  -webkit-transition: background-position .1s linear;
+  -moz-transition: background-position .1s linear;
+  -o-transition: background-position .1s linear;
+  transition: background-position .1s linear;
+}
+.btn-oldstyle:hover,
+.btn-oldstyle:focus {
+  background-color: #063e65;
+}
+.btn-oldstyle:active,
+.btn-oldstyle.active,
+.btn-oldstyle.active:hover {
+  background-color: #084d7d;
+  border-color: #063e65;
+}
+.btn-oldstyle.disabled:hover,
+.btn-oldstyle.disabled:focus,
+.btn-oldstyle.disabled:active,
+.btn-oldstyle.disabled.active,
+.btn-oldstyle[disabled] .btn-oldstyle:hover,
+.btn-oldstyle[disabled] .btn-oldstyle:focus,
+.btn-oldstyle[disabled] .btn-oldstyle:active,
+.btn-oldstyle[disabled] .btn-oldstyle.active {
+  background-color: #095c95;
+  border-color: #095c95;
+}
+
+
+.blueButton {
+	-moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	box-shadow:inset 0px 1px 0px 0px #97c4fe;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #3d94f6), color-stop(1, #1e62d0) );
+	background:-moz-linear-gradient( center top, #3d94f6 5%, #1e62d0 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0');
+	background-color:#3d94f6;
+	-webkit-border-top-left-radius:0px;
+	-moz-border-radius-topleft:0px;
+	border-top-left-radius:0px;
+	-webkit-border-top-right-radius:0px;
+	-moz-border-radius-topright:0px;
+	border-top-right-radius:0px;
+	-webkit-border-bottom-right-radius:0px;
+	-moz-border-radius-bottomright:0px;
+	border-bottom-right-radius:0px;
+	-webkit-border-bottom-left-radius:0px;
+	-moz-border-radius-bottomleft:0px;
+	border-bottom-left-radius:0px;
+	text-indent:0;
+	border:1px solid #337fed;
+	display:inline-block;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:15px;
+	font-weight:bold;
+	font-style:normal;
+	height:40px;
+	line-height:40px;
+	width:100px;
+	text-decoration:none;
+	text-align:center;
+	text-shadow:1px 1px 0px #1570cd;
+}
+.blueButton:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6) );
+	background:-moz-linear-gradient( center top, #1e62d0 5%, #3d94f6 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6');
+	background-color:#1e62d0;
+}.blueButton:active {
+	position:relative;
+	top:1px;
+}

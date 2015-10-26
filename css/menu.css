@@ -1,0 +1,71 @@
+/* 
+    Created on : Apr 21, 2014, 9:27:09 AM
+    Author     : aljordan
+*/
+
+#sse1
+{
+    /*You can decorate the menu's container, such as adding background images through this block*/
+    background-color: #095c95;
+//    height: 38px;
+    height: 38px;
+    padding: 0px;
+    width: 100%;
+    margin: 0px;
+
+    //border-radius: 0px;
+}
+#sses1
+{
+    //margin:0 auto;/*This will make the menu center-aligned. Removing this line will make the menu align left.*/
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+#sses1 ul 
+{ 
+    position: relative;
+    list-style-type: none;
+    float:left;
+    padding:0;margin:0;
+    padding-left: 4px;
+    padding-right: 4px;
+//    padding: 15px;
+//    border-radius: 3px;
+//    border-bottom:solid 1px #6C0000;
+}
+#sses1 li
+{
+    float:left;
+    list-style-type: none;
+    padding:0;margin:0;background-image:none;
+    
+}
+/*CSS for background bubble*/
+#sses1 li.highlight
+{
+//    background-color:#800;
+    background-color:#ffffff;
+    top: 28px;
+    height:2px;
+//    top:36px;
+//    border-bottom:solid 1px #C00;
+    z-index: 1;
+    position: absolute;
+    overflow:hidden;
+//    margin-left: 4px;
+}
+#sses1 li a
+{
+    height:30px;
+    padding-top: 8px;
+    margin: 0 20px;/*used to adjust the distance between each menu item. Now the distance is 20+20=40px.*/
+    color: #fff;
+    font: normal 12px arial;
+    text-align: center;
+    text-decoration: none;
+    float: left;
+    display: block;
+    position: relative;
+    z-index: 2;
+}

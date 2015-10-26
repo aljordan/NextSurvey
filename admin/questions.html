@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>Next Charter School Survey Administration</title>
+        <link href="../css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+        <link href="../css/smoothness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+        <link href="../css/questions.css" rel="stylesheet">
+        <link href="../css/banner.css" rel="stylesheet">
+        <link href="../css/menu.css" rel="stylesheet">
+        <link href="../css/flipswitch.css" rel="stylesheet">
+    </head>
+    <body style="font-family: Ubuntu, sans-serif">
+        <div class="bannerwrapper">   
+            <div class="nextTitle"> 
+                <span class="singleline">Next</span>
+                <div class="doubleline">
+                    <span>CHARTER</span>
+                    <span>SCHOOL</span>
+                </div>
+                <div class="pageInfoHolder">
+                    <span>Survey Administration</span>
+                    <span style="font-size: 20px;">Survey Editor</span>
+                </div>
+            </div>    
+        </div>
+
+        <div id="sse1">
+            <div id="sses1">
+                <ul>
+                    <li><a href="questions.html?menu=1&skin=2&p=Survey-Editor">Survey Editor</a></li>
+                    <li><a href="responseTemplate.html?menu=1&skin=2&p=Response-Templates">Response Templates</a></li>
+                    <li><a href="../index.html">Survey List</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <!-- modal form for editing survey name and description-->
+        <div id="dialog-form" title="Edit survey information" class="dialogForm">
+            <form>
+                <fieldset>
+                    <label for="name">Survey Name</label>
+                    <input type="text" name="name" id="name" class="text ui-widget-content ui-corner-all">
+                    <label for="description">Survey Description</label>
+                    <input type="text" name="description" id="description" value="" class="text ui-widget-content ui-corner-all">
+                </fieldset>
+            </form>
+        </div>
+
+        <div style="font-size: 1.1em;">
+            <h3 style="text-align: center">Next Charter School Survey Administration</h3>
+
+            <a href="#" data-bind="click: addSurvey">Add a new Survey</a>
+
+            <!-- Survey list -->
+            <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveys">
+                <li style="vertical-align: bottom; margin: 0; padding: 0">
+                    <a title="Delete survey" style="cursor:pointer" data-bind="click: $parent.deleteSurvey"><img style="vertical-align: bottom" src="../icons/delete.png" height="15" width="24" alt="Delete survey"></a>
+                    &nbsp;&nbsp;
+                    <a title="Edit survey name and description" style="cursor:pointer" data-bind="click: $parent.editSurveyName"><img style="vertical-align: bottom" src="../icons/edit.png" height="15" width="24" alt="Edit survey name and description"></a>
+                    &nbsp;&nbsp;
+                    <a title="View survey" style="cursor:pointer" data-bind="attr: { href: 'survey.html?surveyId=' + surveyId() + '&surveyName=' + surveyName() + '?menu=1&skin=2&p=View-Survey'}"><img style="vertical-align: bottom" src="../icons/view.png" alt="Edit survey name and description"></a>
+                    &nbsp;&nbsp;
+                    
+                    <span class="onoffswitch" title="Publish survey">
+                        <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" data-bind="attr: {id: surveyId, name: surveyId}, checked: published" >
+                        <label class="onoffswitch-label" data-bind="attr: {for: surveyId}">
+                            <div class="onoffswitch-inner"></div>
+                            <div class="onoffswitch-switch"></div>
+                        </label>
+                    </span>
+
+                    &nbsp;&nbsp;&nbsp;            
+                    <a title="Load survey" style="cursor:pointer; font-weight: bold;" data-bind="click: function() { $parent.loadSurveyPages($data); }, text: surveyName"></a>
+                    &nbsp;&nbsp;
+                    <span data-bind="text: surveyDescription"></span> 
+                    
+                    <br><br>
+                </li>
+            </ul>
+        </div>
+
+
+        <!-- Survey pages list ordered by drag and drop -->
+        <div data-bind="visible: currentSurveyId">
+            <span data-bind="text: currentSurveyName"></span>
+            <div class="questions-div" data-bind="sortable: { data: pages, afterMove: savePages }">
+                <div class="item">
+                    <span><a title="load page questions" style="cursor:pointer" data-bind="click: $parent.loadQuestions"><img style="vertical-align: bottom" src="../icons/down-blue-small.png" height="20" width="20" alt="Load questions"></a>&nbsp;&nbsp;</span>
+                    <span data-bind="visible: !$root.isPageSelected($data)">
+                        <a href="#" title="Edit page name" data-bind="text: pageName, click: $root.selectedPage"></a>
+                    </span>
+                    <span data-bind="visibleAndSelect: $root.isPageSelected($data)">
+                        <input data-bind="value: pageName, event: { blur: $root.clearPage }" />
+                    </span>  
+                </div>
+            </div>
+            <a href="#" data-bind="click: addPage, visible: currentSurveyId">Add Page</a>
+        </div>
+
+
+        <!-- Survey questions list ordered by drag and drop -->
+        <div  data-bind="visible: currentPageId">
+            <span data-bind="text: currentPageName"></span>
+            <div  data-bind="sortable: { data: questions, afterMove: saveQuestions }">
+                <div class="item">
+                    <span style="display: inline-block; width: 80%;" data-bind="visible: !$root.isQuestionSelected($data)">
+                        <a href="#" title="Edit question" data-bind="text: questionText, click: $root.selectedQuestion"></a>
+                    </span>
+                    <span data-bind="visibleAndSelect: $root.isQuestionSelected($data)">
+                        <input data-bind="value: questionText, event: { blur: $root.clearQuestion }" />
+                    </span>  
+                    <span>&nbsp;&nbsp;
+                        <select style="float: right;" data-bind="options: $root.answerTemplates, optionsText: 'answerTemplateName', optionsValue: 'answerTemplateId', value: answerTemplateId"></select>
+                    </span>
+                </div>
+            </div>
+            <a href="#" data-bind="click: addQuestion, visible: currentPageId">Add Question</a>
+        </div>
+        <div><br /></div>
+
+        <script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
+        <script type="text/javascript" src="../js/jquery-ui/jquery-ui.js"></script>
+        <script type='text/javascript' src="../js/knockout/knockout-3.1.0-min.js"></script>
+        <script type='text/javascript' src="../js/knockout/knockout-sortable-min.js"></script>
+        <script type='text/javascript' src="../js/local/admin/questions.js"></script>         
+        <script type='text/javascript' src="../js/local/admin/menu.js"></script>         
+    </body>
+</html>

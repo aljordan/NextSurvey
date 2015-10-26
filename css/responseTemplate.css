@@ -1,0 +1,49 @@
+/* 
+    Created on : Apr 3, 2014, 12:26:58 PM
+    Author     : Alan Jordan
+*/
+
+body {
+    font-family: arial;
+}
+
+h3 {
+    text-align: left;
+    font-weight: bold;
+}
+
+div {
+    padding: 5px;
+    margin: 5px;
+    //border: black 1px solid;
+}
+
+p, a {
+    //font-size: .9em;
+}
+
+.ko_container {
+    width: 225px;
+    min-height: 50px;
+    background-color: #AAA;
+}
+
+.item {
+    background-color: #DDD;
+    cursor: move;
+    text-align: center;
+}
+
+.item input {
+    width: 175px;
+}
+
+#main {
+    float: left;
+    width: 250px;
+    margin-top: 0px;
+}
+
+#main ul {
+    padding-bottom: 10px;
+}

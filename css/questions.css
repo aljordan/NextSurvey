@@ -1,0 +1,74 @@
+/* 
+    Created on : Apr 3, 2014, 12:26:58 PM
+    Author     : Alan Jordan
+*/
+
+
+/*h3 {
+    text-align: left;
+    font-weight: bold;
+}*/
+
+div {
+    padding: 5px;
+    margin: 5px;
+    //border: black 1px solid;
+}
+
+a:visited { 
+    color: #00f 
+}  /* visited links   */
+
+p, a , span{
+    font-size: .95em;
+}
+
+.ko_container {
+    //width: 225px;
+    width: 90%;
+    min-height: 50px;
+    background-color: #AAA;
+}
+
+.item {
+    background-color: #EEE;
+    cursor: move;
+    text-align: left;
+}
+
+.item input {
+    //width: 175px;
+    width: 80%;
+    display: inline;
+}
+
+
+#main {
+    float: left;
+    width: 250px;
+    margin-top: 0px;
+}
+
+#main ul {
+    padding-bottom: 10px;
+}
+
+.dialogForm {
+    font-size: 62.5%;
+}
+
+.dialogForm label, input { 
+    display:block; 
+}
+
+.dia*.logForm fieldset { 
+    padding:0; 
+    border:0; 
+    margin-top:25px; 
+}
+
+.dialogForm input.text { 
+    margin-bottom:12px; 
+    width:95%;
+    padding: .4em;
+}

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Next Charter School Survey</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+        <link href="css/banner.css" rel="stylesheet">
+    </head>
+    <body style="font-family: Ubuntu, sans-serif">
+        <div class="bannerwrapper">   
+            <div class="nextTitle"> 
+                <span class="singleline">Next</span>
+                <div class="doubleline">
+                    <span>CHARTER</span>
+                     <span>SCHOOL</span>
+                </div>
+                <div class="pageInfoHolder" style="padding-bottom: 9px;">
+                    <span>Next Surveys</span>
+                </div>
+            </div>    
+        </div>
+        <br>
+        
+        <div class="container-fluid">
+            <ul style="margin-bottom: 0; padding: 0; list-style-type: none" data-bind="foreach: surveys">
+                <li style="vertical-align: bottom; padding-left: 9px;">
+                    <span style="font-size:27px" data-bind="text: surveyName"></span>&nbsp;&nbsp; 
+                    <span style="font-size:18px;" data-bind="text: surveyDescription"></span> &nbsp;&nbsp;
+                    <!--<a title="Start Survey" style="cursor:pointer" data-bind="click: function() { $parent.openSurvey($data); }, text: 'Begin Survey'"></a>-->
+                    <a style="font-size:18px;" data-bind="attr: { href: 'survey.html?surveyId=' + surveyId() + '&surveyName=' + surveyName()}"><span data-bind="text: 'Begin Survey'"> </span></a>
+                </li>
+            </ul>
+        </div>
+        <script type='text/javascript' src='js/jquery/jquery-2.1.0-min.js'></script>
+        <script type='text/javascript' src="js/knockout/knockout-3.1.0-min.js"></script>
+        <script type='text/javascript' src="js/bootstrap.min.js"></script> 
+        <script type='text/javascript' src="js/local/surveyList.js"></script> 
+    </body>
+</html>

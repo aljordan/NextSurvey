@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>Next Survey Response Templates</title>
+        <link href="../css/bootstrap.css" rel="stylesheet">
+        <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+        <link href="../css/responseTemplate.css" rel="stylesheet">
+        <link href="../css/banner.css" rel="stylesheet">
+        <link href="../css/menu.css" rel="stylesheet">
+    </head>
+    <body style="font-family: Ubuntu, sans-serif">
+        <div class="bannerwrapper">   
+            <div class="nextTitle"> 
+                <span class="singleline">Next</span>
+                <div class="doubleline">
+                    <span>CHARTER</span>
+                    <span>SCHOOL</span>
+                </div>
+                <div class="pageInfoHolder">
+                    <span>Survey Administration</span>
+                    <span style="font-size: 20px;">Response Template Editor</span>
+                </div>
+            </div>    
+        </div>
+
+        <div id="sse1">
+            <div id="sses1">
+                <ul>
+                    <li><a href="questions.html?menu=1&skin=2&p=Survey-Editor">Survey Editor</a></li>
+                    <li><a href="responseTemplate.html?menu=1&skin=2&p=Response-Templates">Response Templates</a></li>
+                    <li><a href="../index.html">Survey List</a></li>
+                </ul>
+            </div>
+        </div>
+
+
+        <div style="padding-left:10px;">
+            <h3 style="text-align: center">Survey Response Templates</h3>
+            <a href="#" data-bind="click: addResponseTemplate">Add a new Response Template</a> <br><br>   
+            <ul style="margin-bottom: 0; padding: 0; list-style-type: none" data-bind="foreach: answerTemplates">
+                <li style="vertical-align: bottom">
+                    <a title="delete response template" style="cursor:pointer" data-bind="click: $parent.deleteResponseTemplate"><img style="vertical-align: bottom" src="../icons/delete.png" height="15" width="24" alt="Delete answer template"></a>
+                    &nbsp;&nbsp;
+                    <a title="edit response template name" style="cursor:pointer" data-bind="click: $parent.editResponseTemplate"><img style="vertical-align: bottom" src="../icons/edit.png" height="15" width="24" alt="Edit answer template"></a>
+                    &nbsp;&nbsp;
+                    <a title="load response template" style="cursor:pointer" data-bind="click: function() { $parent.loadResponseTemplate($data); }, text: answerTemplateName"></a>
+                </li>
+            </ul>
+            <br/>
+            <div id="main">
+                <span data-bind="text: currentTemplateName"></span>
+                <div class="container" data-bind="sortable: { data: answers, afterMove: saveAnswers }, visible: currentTemplateId">
+                    <!-- leading comment -->
+                    <div class="item">
+                        <span data-bind="visible: !$root.isResponseSelected($data)">
+                            <a href="#" title="Edit answer" data-bind="text: answerText, click: $root.selectedResponse"></a>
+                        </span>
+                        <span data-bind="visibleAndSelect: $root.isResponseSelected($data)">
+                            <input data-bind="value: answerText, event: { blur: $root.clearResponse }" />
+                        </span>  
+                    </div>
+                </div>
+                <a href="#" data-bind="click: addResponse, visible: currentTemplateId">Add Answer</a>
+            </div>
+        </div>
+
+        <script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
+        <script type="text/javascript" src="../js/jquery-ui/jquery-ui.js"></script>
+        <script type='text/javascript' src="../js/knockout/knockout-3.1.0-min.js"></script>
+        <script type='text/javascript' src="../js/knockout/knockout-sortable-min.js"></script>
+        <script type='text/javascript' src="../js/local/admin/responseTemplate.js"></script> 
+        <script type='text/javascript' src="../js/local/admin/menu.js"></script>         
+    </body>
+</html>
