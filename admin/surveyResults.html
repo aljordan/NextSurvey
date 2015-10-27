@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Next Charter School Survey Results</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular,bold&subset=Latin">
+    <link href="../css/smoothness/jquery-ui-1.10.4.custom.css" rel="stylesheet">
+    <link href="../css/questions.css" rel="stylesheet">
+    <link href="../css/banner.css" rel="stylesheet">
+    <link href="../css/menu.css" rel="stylesheet">
+</head>
+<body>
+
+<div style="font-size: 1.1em;">
+    <h3 style="text-align: center">Next Charter School Survey Results</h3>
+
+
+    <!-- Survey list -->
+    <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveyResults">
+        <li style="vertical-align: bottom; margin: 0; padding: 0">
+            <span data-bind="text: questionText"></span>&nbsp;
+            <ul data-bind="foreach: answers">
+                <li><span data-bind="text: answerText"></span>&nbsp;<span data-bind="text: answerCount"></span></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+
+
+<script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
+<script type='text/javascript' src="../js/knockout/knockout-3.1.0-min.js"></script>
+<script type='text/javascript' src="../js/bootstrap.min.js"></script>
+<script type='text/javascript' src="../js/local/admin/surveyResults.js"></script>
+<script type='text/javascript' src="../js/local/admin/menu.js"></script>
+
+</body>
+</html>
