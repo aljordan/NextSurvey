@@ -80,6 +80,10 @@ function initCharts() {
 // draws it.
 function drawCharts() {
     var colors = ['#008000','#4169E1','#708090','#FF8C00','#B22222'];
+    var width = Math.max(document.documentElement["clientWidth"], document.body["scrollWidth"],
+        document.documentElement["scrollWidth"], document.body["offsetWidth"],
+        document.documentElement["offsetWidth"]);
+
     for (var x in vm.surveyResults()) {
         // Create our data table.
         chartData = new google.visualization.DataTable();
@@ -96,8 +100,8 @@ function drawCharts() {
         // Set chart options
         var options = {
             'title': vm.surveyResults()[x].questionText(),
-            'width': 600,
-            'height': 300,
+            //'width': width,
+            //'height': 300,
             is3D: true,
             colors: colors
         };

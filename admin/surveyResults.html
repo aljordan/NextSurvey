@@ -10,22 +10,47 @@
     <link href="../css/banner.css" rel="stylesheet">
     <link href="../css/menu.css" rel="stylesheet">
 </head>
-<body>
+<body style="font-family: Ubuntu, sans-serif">
+<div class="bannerwrapper">
+    <div class="nextTitle">
+        <span class="singleline">Next</span>
+        <div class="doubleline">
+            <span>CHARTER</span>
+            <span>SCHOOL</span>
+        </div>
+        <div class="pageInfoHolder">
+            <span>Survey Administration</span>
+            <span style="font-size: 20px;">Survey Results</span>
+        </div>
+    </div>
+</div>
+
+<div id="sse1">
+    <div id="sses1">
+        <ul>
+            <li><a href="questions.html?menu=1&skin=2&p=Survey-Editor">Survey Editor</a></li>
+            <li><a href="surveyResults.html?menu=1&skin=2&p=Survey-Results">Survey Results</a></li>
+            <li><a href="responseTemplate.html?menu=1&skin=2&p=Response-Templates">Response Templates</a></li>
+            <li><a href="../index.html">Survey List</a></li>
+        </ul>
+    </div>
+</div>
+
 
 <div style="font-size: 1.1em;">
     <h3 style="text-align: left">Next Charter School Survey Results</h3>
 
 
     <!-- Survey list -->
-    <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveyResults">
+     <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveyResults">
         <!-- <li style="vertical-align: bottom; margin: 0; padding: 0">
             <span data-bind="text: questionText"></span>&nbsp;
             <ul data-bind="foreach: answers">
                 <li><span data-bind="text: answerText"></span>&nbsp;<span data-bind="text: answerCount"></span></li>
             </ul>
         </li>-->
-        <div data-bind="attr: {id: chartId}"></div>
-    </ul>
+        <div data-bind="attr: {id: chartId}" style="width:600px; height:300px"></div>
+     </ul>
 </div>
 
 <script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
