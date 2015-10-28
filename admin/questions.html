@@ -84,6 +84,9 @@
             </ul>
         </div>
 
+        <div>
+
+        </div>
 
         <!-- Survey pages list ordered by drag and drop -->
         <div data-bind="visible: currentSurveyId">
@@ -92,7 +95,7 @@
                 <div class="item">
                     <span><a title="load page questions" style="cursor:pointer" data-bind="click: $parent.loadQuestions"><img style="vertical-align: bottom" src="../icons/down-blue-small.png" height="20" width="20" alt="Load questions"></a>&nbsp;&nbsp;</span>
                     <span data-bind="visible: !$root.isPageSelected($data)">
-                        <a href="#" title="Edit page name" data-bind="text: pageName, click: $root.selectedPage"></a>
+                        <a href="#" title="Edit page name or drag and drop to reorder" data-bind="text: pageName, click: $root.selectedPage"></a>
                     </span>
                     <span data-bind="visibleAndSelect: $root.isPageSelected($data)">
                         <input data-bind="value: pageName, event: { blur: $root.clearPage }" />
@@ -109,7 +112,7 @@
             <div  data-bind="sortable: { data: questions, afterMove: saveQuestions }">
                 <div class="item">
                     <span style="display: inline-block; width: 80%;" data-bind="visible: !$root.isQuestionSelected($data)">
-                        <a href="#" title="Edit question" data-bind="text: questionText, click: $root.selectedQuestion"></a>
+                        <a href="#" title="Edit question or drag and drop to reorder" data-bind="text: questionText, click: $root.selectedQuestion"></a>
                     </span>
                     <span data-bind="visibleAndSelect: $root.isQuestionSelected($data)">
                         <input data-bind="value: questionText, event: { blur: $root.clearQuestion }" />

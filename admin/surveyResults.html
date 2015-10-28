@@ -59,11 +59,20 @@
                 <a title="Load page results" style="cursor:pointer; font-weight: bold;" data-bind="click: function() { $root.loadSurveyResults($data); }, text: pageName"></a>
             </li>
         </ul>
-
     </div>
 </div>
+<br clear="all">
+<div>
+    <span>
+        <label>Starting Date</label>
+        <input type="date" data-bind="value: beginDateFilter" title="optional" placeholder="yyyy-mm-dd">
+    </span>
+    <span style="margin-left: 5px">
+        <label>Ending Date</label>
+        <input type="date" data-bind="value: endDateFilter" title="optional" placeholder="yyyy-mm-dd">
+    </span>
+</div>
 
-<div><br/><br/></div>
 
 <div data-bind="visible: showHeadings">
     <span data-bind="text: currentSurveyName"></span> &nbsp;&nbsp; Page: <span data-bind="text:currentPageName"></span>
@@ -87,6 +96,7 @@
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 <script type='text/javascript' src="../js/local/admin/surveyResults.js"></script>
 <script type='text/javascript' src="../js/local/admin/menu.js"></script>
+
 
 
 </body>

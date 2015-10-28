@@ -55,7 +55,7 @@
                     <!-- leading comment -->
                     <div class="item">
                         <span data-bind="visible: !$root.isResponseSelected($data)">
-                            <a href="#" title="Edit answer" data-bind="text: answerText, click: $root.selectedResponse"></a>
+                            <a href="#" title="Edit answer or drag and drop to reorder" data-bind="text: answerText, click: $root.selectedResponse"></a>
                         </span>
                         <span data-bind="visibleAndSelect: $root.isResponseSelected($data)">
                             <input data-bind="value: answerText, event: { blur: $root.clearResponse }" />

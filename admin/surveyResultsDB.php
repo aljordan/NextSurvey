@@ -6,6 +6,12 @@
  * Time: 8:44 PM
  */
 
+function validateDate($date)
+{
+    $d = DateTime::createFromFormat('Y-m-d', $date);
+    return $d && $d->format('Y-m-d') == $date;
+}
+
 $iniArray = parse_ini_file("../nextsurvey.ini.php");
 $db = new MySqli($iniArray['host'], $iniArray['username'], $iniArray['password'], $iniArray['database']);
 
@@ -15,9 +21,22 @@ switch ($action) {
     case 'loadSurveyResults':
         $surveyId = $_POST['surveyId'];
         $pageId = $_POST['pageId'];
+        $beginDate = $_POST['beginDate'];
+        $endDate = $_POST['endDate'];
         $pageFilter = "";
+        $beginDateFilter = "";
+        $endDateFilter = "";
+
         if ($pageId !== "all") {
             $pageFilter = " and question.pageId = $pageId";
+        }
+
+        if (validateDate($beginDate)) {
+            $beginDateFilter = " and response.datetime >= '$beginDate'";
+        }
+
+        if (validateDate($endDate)) {
+            $endDateFilter = " and response.datetime <= '$endDate'";
         }
 
         $allAnswers = $db->query("select question.questionId, question.questionText, answer.answerText, response.answerID,
@@ -25,7 +44,7 @@ switch ($action) {
             inner join question on question.questionId = response.questionId
             inner join answer on answer.answerId = response.answerId
             inner join page on page.pageId = question.pageId
-            where response.surveyId = '$surveyId' $pageFilter
+            where response.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter
             group by response.questionId, response.answerId
             order by page.pageOrder, question.questionOrder, answer.answerOrder");
 

@@ -34,6 +34,9 @@ var ViewModel = function() {
     self.currentSurveyName = ko.observable();
     self.currentPageName = ko.observable();
     self.showHeadings = ko.observable(false);
+    self.beginDateFilter = ko.observable("");
+    self.endDateFilter = ko.observable("");
+
 
     this.loadSurveys = function() {
         //fetch existing data from database
@@ -61,7 +64,8 @@ var ViewModel = function() {
         $.ajax({
             type: "POST",
             url: 'surveyResultsDB.php',
-            data: {'action': 'loadSurveyResults', 'surveyId': surveyId, 'pageId': pageId},
+            data: {'action': 'loadSurveyResults', 'surveyId': surveyId, 'pageId': pageId,
+                'beginDate': self.beginDateFilter, 'endDate': self.endDateFilter},
             dataType: 'json',
             success: function(data) {
                 //clear out any existing survey results data
