@@ -79,10 +79,13 @@ function initCharts() {
 // instantiates the pie chart, passes in the data and
 // draws it.
 function drawCharts() {
-    var colors = ['#008000','#4169E1','#708090','#FF8C00','#B22222'];
+    var colors = ['#008000','#4169E1','#708090','#FF8C00','#B22222','#6A5ACD','#00FF7F','#1E90FF'];
+
+    /*
     var width = Math.max(document.documentElement["clientWidth"], document.body["scrollWidth"],
         document.documentElement["scrollWidth"], document.body["offsetWidth"],
         document.documentElement["offsetWidth"]);
+*/
 
     for (var x in vm.surveyResults()) {
         // Create our data table.
