@@ -13,18 +13,18 @@
 <body>
 
 <div style="font-size: 1.1em;">
-    <h3 style="text-align: center">Next Charter School Survey Results</h3>
+    <h3 style="text-align: left">Next Charter School Survey Results</h3>
 
 
     <!-- Survey list -->
     <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveyResults">
-        <li style="vertical-align: bottom; margin: 0; padding: 0">
+        <!-- <li style="vertical-align: bottom; margin: 0; padding: 0">
             <span data-bind="text: questionText"></span>&nbsp;
             <ul data-bind="foreach: answers">
                 <li><span data-bind="text: answerText"></span>&nbsp;<span data-bind="text: answerCount"></span></li>
             </ul>
-        </li>
-        <div data-bind="attr: {id: chartId}" style="width:500px; height:325px"></div>
+        </li>-->
+        <div data-bind="attr: {id: chartId}"></div>
     </ul>
 </div>
 

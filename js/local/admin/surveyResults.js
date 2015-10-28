@@ -79,28 +79,34 @@ function initCharts() {
 // instantiates the pie chart, passes in the data and
 // draws it.
 function drawCharts() {
+    var colors = ['#008000','#4169E1','#708090','#FF8C00','#B22222'];
+    for (var x in vm.surveyResults()) {
+        // Create our data table.
+        chartData = new google.visualization.DataTable();
+        chartData.addColumn('string', 'Answer');
+        chartData.addColumn('number', 'Count');
 
-    // Create our data table.
-    chartData = new google.visualization.DataTable();
-    chartData.addColumn('string', 'Answer');
-    chartData.addColumn('number', 'Count');
+        for (var a in vm.surveyResults()[x].answers()) {
+            // alert(vm.surveyResults()[0].answers()[a].answerText());
 
-    for (var a in vm.surveyResults()[0].answers()) {
-       // alert(vm.surveyResults()[0].answers()[a].answerText());
+            chartData.addRow([vm.surveyResults()[x].answers()[a].answerText(),
+                Number(vm.surveyResults()[x].answers()[a].answerCount())]);
+        }
 
-        chartData.addRow([vm.surveyResults()[0].answers()[a].answerText(),
-            Number(vm.surveyResults()[0].answers()[a].answerCount())]);
+        // Set chart options
+        var options = {
+            'title': vm.surveyResults()[x].questionText(),
+            'width': 600,
+            'height': 300,
+            is3D: true,
+            colors: colors
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        //chart = new google.visualization.PieChart(document.getElementById('chart75'));
+        chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[x].chartId()));
+        chart.draw(chartData, options);
     }
-
-    // Set chart options
-    var options = {'title':vm.surveyResults()[0].questionText(),
-        'width':400,
-        'height':300};
-
-    // Instantiate and draw our chart, passing in some options.
-    //chart = new google.visualization.PieChart(document.getElementById('chart75'));
-    chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[0].chartId()));
-    chart.draw(chartData, options);
 }
 
 initCharts();
