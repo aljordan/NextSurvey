@@ -31,14 +31,22 @@
             <li><a href="questions.html?menu=1&skin=2&p=Survey-Editor">Survey Editor</a></li>
             <li><a href="surveyResults.html?menu=1&skin=2&p=Survey-Results">Survey Results</a></li>
             <li><a href="responseTemplate.html?menu=1&skin=2&p=Response-Templates">Response Templates</a></li>
-            <li><a href="../index.html">Survey List</a></li>
+            <li><a href="../index.html">Home</a></li>
         </ul>
     </div>
 </div>
 
 
 <div style="font-size: 1.1em;">
-    <h3 style="text-align: left">Next Charter School Survey Results</h3>
+    <h3 style="text-align: left">Surveys</h3>
+
+    <!-- Survey list -->
+    <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: surveys">
+        <li style="vertical-align: bottom; margin: 0; padding: 0">
+            &nbsp;&nbsp;&nbsp;
+            <a title="Load survey" style="cursor:pointer; font-weight: bold;" data-bind="click: function() { $root.loadSurveyResults($data); }, text: surveyName"></a>
+        </li>
+    </ul>
 
 
     <!-- Survey list -->

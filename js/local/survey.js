@@ -153,11 +153,9 @@ var ViewModel = function() {
                         previousAnswerTemplateId = answerTemplateId;
                         previousSelectedAnswerId = selectedAnswerId;
                         previousSelectedFreeResponseText = freeResponseText;
-                        //TODO: It seems to me these next to lines should be in
-                        // the opposite order.
+                       answerArray = [];
                         answerArray.push(new Answer(answerId,answerText));
-                        answerArray = [];
-                    } else {
+                     } else {
                         answerArray.push(new Answer(answerId,answerText));
                     }
                     firstTimeThrough = false;

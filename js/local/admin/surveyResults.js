@@ -2,6 +2,11 @@
  * Created by aljordan on 10/27/15.
  */
 
+var Survey = function(surveyId, surveyName) {
+    this.surveyId = ko.observable(surveyId);
+    this.surveyName = ko.observable(surveyName);
+};
+
 var SurveyResult = function(chartId, questionText, answersArray) {
     this.chartId = ko.observable(chartId);
     this.questionText = ko.observable(questionText);
@@ -17,13 +22,36 @@ var AnswerCountData = function(answerText, answerCount) {
 var ViewModel = function() {
     var self = this;
     self.surveyResults = ko.observableArray(null);
+    self.surveys = ko.observableArray(null);
 
-    this.loadData = function() {
+    this.loadSurveys = function() {
         //fetch existing data from database
         $.ajax({
+            type: "POST",
             url: 'surveyResultsDB.php',
+            data: {'action': 'loadSurveys'},
             dataType: 'json',
             success: function(data) {
+                for (var x in data) {
+                    var surveyId = data[x]['surveyId'];
+                    var surveyName = data[x]['surveyName'];
+                    self.surveys.push(new Survey(surveyId, surveyName));
+                }
+            }
+        });
+    };
+
+    this.loadSurveyResults = function(data) {
+        var surveyId = data.surveyId();
+        //fetch existing data from database
+        $.ajax({
+            type: "POST",
+            url: 'surveyResultsDB.php',
+            data: {'action': 'loadSurveyResults', 'surveyId': surveyId},
+            dataType: 'json',
+            success: function(data) {
+                //clear out any existing survey results data
+                self.surveyResults([]);
                 var answerArray = [];
                 var previousQuestionId = null;
                 var previousQuestionText = null;
@@ -49,13 +77,13 @@ var ViewModel = function() {
                 }
                 // push last results
                 self.surveyResults.push(new SurveyResult(chartId, questionText, answerArray));
-
+                drawCharts();
             }
         });
     };
 
 
-    this.loadData();
+    this.loadSurveys();
 
 }; //end view model
 
@@ -63,15 +91,15 @@ var ViewModel = function() {
 vm = new ViewModel();
 ko.applyBindings(vm);
 
-
+google.load('visualization', '1', {'packages':['corechart']});
 var chartData;
 var chart;
 
 function initCharts() {
     // Load the Visualization API and the piechart package.
-    google.load('visualization', '1', {'packages':['corechart']});
+//    google.load('visualization', '1', {'packages':['corechart']});
     // Set a callback to run when the Google Visualization API is loaded.
-    google.setOnLoadCallback(drawCharts);
+//    google.setOnLoadCallback(drawCharts);
 }
 
 
@@ -116,4 +144,4 @@ function drawCharts() {
     }
 }
 
-initCharts();
+//initCharts();
