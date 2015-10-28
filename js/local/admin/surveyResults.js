@@ -18,11 +18,22 @@ var AnswerCountData = function(answerText, answerCount) {
     this.answerCount = ko.observable(answerCount);
 };
 
+var Page = function(pageId, surveyId, pageName) {
+    this.pageId = ko.observable(pageId);
+    this.surveyId = ko.observable(surveyId);
+    this.pageName = ko.observable(pageName);
+};
+
+
 
 var ViewModel = function() {
     var self = this;
     self.surveyResults = ko.observableArray(null);
     self.surveys = ko.observableArray(null);
+    self.pages = ko.observableArray(null);
+    self.currentSurveyName = ko.observable();
+    self.currentPageName = ko.observable();
+    self.showHeadings = ko.observable(false);
 
     this.loadSurveys = function() {
         //fetch existing data from database
@@ -43,11 +54,14 @@ var ViewModel = function() {
 
     this.loadSurveyResults = function(data) {
         var surveyId = data.surveyId();
+        var pageId = data.pageId();
+        self.currentPageName(data.pageName());
+        self.showHeadings(true);
         //fetch existing data from database
         $.ajax({
             type: "POST",
             url: 'surveyResultsDB.php',
-            data: {'action': 'loadSurveyResults', 'surveyId': surveyId},
+            data: {'action': 'loadSurveyResults', 'surveyId': surveyId, 'pageId': pageId},
             dataType: 'json',
             success: function(data) {
                 //clear out any existing survey results data
@@ -81,6 +95,31 @@ var ViewModel = function() {
             }
         });
     };
+
+
+    self.loadSurveyPages = function(data) {
+        self.showHeadings(false);
+        self.surveyResults([]);
+        var surveyId = data.surveyId();
+        self.currentSurveyName(data.surveyName());
+        self.pages([]);
+        self.pages.push(new Page("all",surveyId,"All"));
+        $.ajax({
+            type: "POST",
+            url: 'surveyResultsDB.php',
+            data: {'action': 'getPages', 'surveyId': surveyId},
+            dataType: 'json',
+            success: function(data) {
+                for (var x in data) {
+                    var pageId = data[x]['pageId'];
+                    var surveyId = data[x]['surveyId'];
+                    var pageName = data[x]['pageName'];
+                    self.pages.push(new Page(pageId, surveyId, pageName));
+                }
+            }
+        });
+    };
+
 
 
     this.loadSurveys();
@@ -144,4 +183,3 @@ function drawCharts() {
     }
 }
 
-//initCharts();

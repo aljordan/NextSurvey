@@ -14,12 +14,18 @@ $action = (!empty($_POST['action'])) ? $_POST['action'] : '';
 switch ($action) {
     case 'loadSurveyResults':
         $surveyId = $_POST['surveyId'];
+        $pageId = $_POST['pageId'];
+        $pageFilter = "";
+        if ($pageId !== "all") {
+            $pageFilter = " and question.pageId = $pageId";
+        }
+
         $allAnswers = $db->query("select question.questionId, question.questionText, answer.answerText, response.answerID,
             count(*) as answerCount FROM response
             inner join question on question.questionId = response.questionId
             inner join answer on answer.answerId = response.answerId
             inner join page on page.pageId = question.pageId
-            where response.surveyId = '$surveyId'
+            where response.surveyId = '$surveyId' $pageFilter
             group by response.questionId, response.answerId
             order by page.pageOrder, question.questionOrder, answer.answerOrder");
 
@@ -51,6 +57,22 @@ switch ($action) {
         }
 
         echo json_encode($surveysReturned);
+        break;
+
+    case 'getPages':
+        $surveyId = $_POST['surveyId'];
+        $pages = $db->query("select pageId, surveyId, pageName from page where surveyId = '$surveyId' order by CAST(pageOrder AS SIGNED)");
+
+        $pagesReturned = array();
+        while ($row = $pages->fetch_array()) {
+            $pageId = $row['pageId'];
+            $surveyId = $row['surveyId'];
+            $pageName = $row['pageName'];
+            $pagesReturned[] = array(
+                'pageId' => $pageId, 'surveyId' => $surveyId, 'pageName' => $pageName
+            );
+        }
+        echo json_encode($pagesReturned);
         break;
 }
 
