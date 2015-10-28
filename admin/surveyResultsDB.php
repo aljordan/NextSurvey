@@ -10,7 +10,7 @@ $iniArray = parse_ini_file("../nextsurvey.ini.php");
 $db = new MySqli($iniArray['host'], $iniArray['username'], $iniArray['password'], $iniArray['database']);
 
 
-$allAnswers = $db->query("select question.questionText, answer.answerText, response.answerID,
+$allAnswers = $db->query("select question.questionId, question.questionText, answer.answerText, response.answerID,
     count(*) as answerCount FROM response
     inner join question on question.questionId = response.questionId
     inner join answer on answer.answerId = response.answerId
@@ -21,11 +21,12 @@ $allAnswers = $db->query("select question.questionText, answer.answerText, respo
 
 $answersReturned = array();
 while ($row = $allAnswers->fetch_array()) {
+    $questionId = $row['questionId'];
     $questionText = $row['questionText'];
     $answerCount = $row['answerCount'];
     $answerText = $row['answerText'];
     $answersReturned[] = array(
-        'questionText' => $questionText, 'answerCount' => $answerCount, 'answerText' => $answerText
+        'questionId' => $questionId, 'questionText' => $questionText, 'answerCount' => $answerCount, 'answerText' => $answerText
     );
 }
 echo json_encode($answersReturned);
