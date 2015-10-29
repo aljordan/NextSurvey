@@ -28,8 +28,9 @@
             <div id="sses1">
                 <ul>
                     <li><a href="questions.html?menu=1&skin=2&p=Survey-Editor">Survey Editor</a></li>
+                    <li><a href="surveyResults.html?menu=1&skin=2&p=Survey-Results">Survey Results</a></li>
                     <li><a href="responseTemplate.html?menu=1&skin=2&p=Response-Templates">Response Templates</a></li>
-                    <li><a href="../index.html">Survey List</a></li>
+                    <li><a href="../index.html">Home</a></li>
                 </ul>
             </div>
         </div>
@@ -54,7 +55,7 @@
                     <!-- leading comment -->
                     <div class="item">
                         <span data-bind="visible: !$root.isResponseSelected($data)">
-                            <a href="#" title="Edit answer" data-bind="text: answerText, click: $root.selectedResponse"></a>
+                            <a href="#" title="Edit answer or drag and drop to reorder" data-bind="text: answerText, click: $root.selectedResponse"></a>
                         </span>
                         <span data-bind="visibleAndSelect: $root.isResponseSelected($data)">
                             <input data-bind="value: answerText, event: { blur: $root.clearResponse }" />

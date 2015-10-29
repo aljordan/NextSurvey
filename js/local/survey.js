@@ -144,6 +144,7 @@ var ViewModel = function() {
                     var selectedAnswerId = data[x]['selectedAnswerId'];
                     var freeResponseText = data[x]['freeResponseText'];
                     if (questionId !== previousQuestionId) {
+                        // push the question and then reset
                         if (firstTimeThrough === false) {
                             self.questions.push(new Question(previousQuestionId, previousQuestionText, previousAnswerTemplateId, answerArray, previousSelectedAnswerId, previousSelectedFreeResponseText));
                         }
@@ -152,9 +153,9 @@ var ViewModel = function() {
                         previousAnswerTemplateId = answerTemplateId;
                         previousSelectedAnswerId = selectedAnswerId;
                         previousSelectedFreeResponseText = freeResponseText;
-                        answerArray = [];
+                       answerArray = [];
                         answerArray.push(new Answer(answerId,answerText));
-                    } else {
+                     } else {
                         answerArray.push(new Answer(answerId,answerText));
                     }
                     firstTimeThrough = false;

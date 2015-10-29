@@ -1,0 +1,13 @@
+div {
+    padding: 5px;
+    margin: 5px;
+}
+#left {
+    float: left;
+    width: 50%;
+    overflow: hidden;
+}
+
+#right {
+    overflow: hidden;
+}
