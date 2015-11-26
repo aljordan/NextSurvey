@@ -6,40 +6,6 @@
  * Time: 8:44 PM
  */
 
-// The following is to allow DateTime::CreateFromFormat to work in php 5.2
-function DEFINE_date_create_from_format()
-{
-
-    function date_create_from_format( $dformat, $dvalue )
-    {
-
-        $schedule = $dvalue;
-        $schedule_format = str_replace(array('Y','m','d', 'H', 'i','a'),array('%Y','%m','%d', '%I', '%M', '%p' ) ,$dformat);
-        // %Y, %m and %d correspond to date()'s Y m and d.
-        // %I corresponds to H, %M to i and %p to a
-        $ugly = strptime($schedule, $schedule_format);
-        $ymd = sprintf(
-        // This is a format string that takes six total decimal
-        // arguments, then left-pads them with zeros to either
-        // 4 or 2 characters, as needed
-            '%04d-%02d-%02d %02d:%02d:%02d',
-            $ugly['tm_year'] + 1900,  // This will be "111", so we need to add 1900.
-            $ugly['tm_mon'] + 1,      // This will be the month minus one, so we add one.
-            $ugly['tm_mday'],
-            $ugly['tm_hour'],
-            $ugly['tm_min'],
-            $ugly['tm_sec']
-        );
-        $new_schedule = new DateTime($ymd);
-
-        return $new_schedule;
-    }
-}
-
-if( !function_exists("date_create_from_format") )
-    DEFINE_date_create_from_format();
-
-
 function validateDate($date)
 {
     $d = DateTime::createFromFormat('Y-m-d', $date);
@@ -94,6 +60,47 @@ switch ($action) {
         }
         echo json_encode($answersReturned);
         break;
+
+    case 'loadFreeResponseResults':
+        $surveyId = $_POST['surveyId'];
+        $pageId = $_POST['pageId'];
+        $beginDate = $_POST['beginDate'];
+        $endDate = $_POST['endDate'];
+        $pageFilter = "";
+        $beginDateFilter = "";
+        $endDateFilter = "";
+
+        if ($pageId !== "all") {
+            $pageFilter = " and question.pageId = $pageId";
+        }
+
+        if (validateDate($beginDate)) {
+            $beginDateFilter = " and response.datetime >= '$beginDate'";
+        }
+
+        if (validateDate($endDate)) {
+            $endDateFilter = " and response.datetime <= '$endDate'";
+        }
+
+        $freeResponseAnswers = $db->query("select question.questionId, question.questionText, freeResponse.responseText
+	      from freeResponse
+	      inner join question on question.questionId = freeResponse.questionId
+	      inner join page on page.pageId = question.pageId
+	      where freeResponse.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter
+          order by page.pageOrder, question.questionOrder");
+
+        $answersReturned = array();
+        while ($row = $freeResponseAnswers->fetch_array()) {
+            $questionId = $row['questionId'];
+            $questionText = $row['questionText'];
+            $answerText = $row['responseText'];
+            $answersReturned[] = array(
+                'questionId' => $questionId, 'questionText' => $questionText, 'answerText' => $answerText
+            );
+        }
+        echo json_encode($answersReturned);
+        break;
+
 
     case 'loadSurveys':
         $surveys = $db->query("select surveyid, surveyname from survey where archived = 0 order by surveyname");

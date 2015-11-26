@@ -90,6 +90,18 @@
      </ul>
 </div>
 
+<div>
+    <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: freeResponseResults">
+        <li style="vertical-align: bottom; margin: 0; padding: 0">
+            <span style="font-weight: bold" data-bind="text: questionText"></span>&nbsp;
+            <ul data-bind="foreach: answers">
+                <li><span data-bind="text: answerText"></span></li>
+            </ul>
+            <br/>
+        </li>
+    </ul>
+</div>
+
 <script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
 <script type='text/javascript' src="../js/knockout/knockout-3.1.0-min.js"></script>
 <script type='text/javascript' src="../js/bootstrap.min.js"></script>

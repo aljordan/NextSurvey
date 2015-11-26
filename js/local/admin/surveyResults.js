@@ -11,7 +11,20 @@ var SurveyResult = function(chartId, questionText, answersArray) {
     this.chartId = ko.observable(chartId);
     this.questionText = ko.observable(questionText);
     this.answers = ko.observableArray(answersArray);
-}
+};
+
+var FreeResponseResult = function(questionId, questionText, answersArray) {
+    this.questionId = ko.observable(questionId);
+    this.questionText = ko.observable(questionText);
+    this.answers = ko.observableArray(answersArray);
+};
+
+var Filter = function(questionId, answerId, questionText, answerText) {
+    this.questionId = ko.observable(questionId);
+    this.questionText = ko.observable(questionText);
+    this.answerId = ko.observable(answerId);
+    this.answerText = ko.observable(answerText);
+};
 
 var AnswerCountData = function(answerText, answerCount) {
     this.answerText = ko.observable(answerText);
@@ -29,8 +42,10 @@ var Page = function(pageId, surveyId, pageName) {
 var ViewModel = function() {
     var self = this;
     self.surveyResults = ko.observableArray(null);
+    self.freeResponseResults = ko.observableArray(null);
     self.surveys = ko.observableArray(null);
     self.pages = ko.observableArray(null);
+    self.filters = ko.observableArray(null);
     self.currentSurveyName = ko.observable();
     self.currentPageName = ko.observable();
     self.showHeadings = ko.observable(false);
@@ -98,6 +113,45 @@ var ViewModel = function() {
                 drawCharts();
             }
         });
+
+        $.ajax({
+            type: "POST",
+            url: 'surveyResultsDB.php',
+            data: {'action': 'loadFreeResponseResults', 'surveyId': surveyId, 'pageId': pageId,
+                'beginDate': self.beginDateFilter, 'endDate': self.endDateFilter},
+            dataType: 'json',
+            success: function(data) {
+                //clear out any existing survey results data
+                self.freeResponseResults([]);
+                var answerArray = [];
+                var previousQuestionId = null;
+                var previousQuestionText = null;
+                var firstTimeThrough = true;
+                for (var x in data) {
+                    var questionId = data[x]['questionId'];
+                    var questionText = data[x]['questionText'];
+                    var answerText = data[x]['answerText'];
+                    if (questionText != previousQuestionText) {
+                        if (!firstTimeThrough) {
+                            self.freeResponseResults.push(new FreeResponseResult(previousQuestionId, previousQuestionText, answerArray));
+                        }
+                        previousQuestionId = questionId;
+                        previousQuestionText = questionText;
+                        answerArray = [];
+                        //answerArray.push(answerText);
+                        answerArray.push({answerText: new ko.observable(answerText)});
+                    } else {
+                        //answerArray.push(answerText);
+                        answerArray.push({answerText: new ko.observable(answerText)});
+                    }
+                    firstTimeThrough = false;
+
+                }
+                // push last results
+                self.freeResponseResults.push(new FreeResponseResult(questionId, questionText, answerArray));
+            }
+        });
+
     };
 
 
