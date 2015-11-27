@@ -75,11 +75,11 @@ switch ($action) {
         }
 
         if (validateDate($beginDate)) {
-            $beginDateFilter = " and response.datetime >= '$beginDate'";
+            $beginDateFilter = " and freeResponse.datetime >= '$beginDate'";
         }
 
         if (validateDate($endDate)) {
-            $endDateFilter = " and response.datetime <= '$endDate'";
+            $endDateFilter = " and freeResponse.datetime <= '$endDate'";
         }
 
         $freeResponseAnswers = $db->query("select question.questionId, question.questionText, freeResponse.responseText

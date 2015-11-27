@@ -62,14 +62,19 @@
     </div>
 </div>
 <br clear="all">
+
+
 <div>
+    Filter by Date <input type="checkbox" data-bind="checked: filterByDate, click: setDates" />
+</div>
+<div id="dateFilters">
     <span>
         <label>Starting Date</label>
-        <input type="date" data-bind="value: beginDateFilter" title="optional" placeholder="yyyy-mm-dd">
+        <input type="date" id="startingDate" data-bind="value: beginDateFilter" title="optional" placeholder="yyyy-mm-dd">
     </span>
     <span style="margin-left: 5px">
         <label>Ending Date</label>
-        <input type="date" data-bind="value: endDateFilter" title="optional" placeholder="yyyy-mm-dd">
+        <input type="date" id="endingDate" data-bind="value: endDateFilter" title="optional" placeholder="yyyy-mm-dd">
     </span>
 </div>
 

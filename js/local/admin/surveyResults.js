@@ -49,8 +49,11 @@ var ViewModel = function() {
     self.currentSurveyName = ko.observable();
     self.currentPageName = ko.observable();
     self.showHeadings = ko.observable(false);
+    self.filterByDate = ko.observable(false);
     self.beginDateFilter = ko.observable("");
     self.endDateFilter = ko.observable("");
+    var beginDate = "";
+    var endDate = "";
 
 
     this.loadSurveys = function() {
@@ -69,6 +72,25 @@ var ViewModel = function() {
             }
         });
     };
+
+    this.setDates = function() {
+        if (!self.filterByDate()) {
+            //first backup current dates
+            beginDate = self.beginDateFilter();
+            endDate = self.endDateFilter();
+            // now clear dates
+            self.beginDateFilter("");
+            self.endDateFilter("");
+            $("#dateFilters").hide();
+        } else {
+            $("#dateFilters").show();
+            $('#startingDate').val(beginDate);
+            self.beginDateFilter(beginDate);
+            $('#endingDate').val(endDate);
+            self.endDateFilter(endDate);
+        }
+        return true;
+    }
 
     this.loadSurveyResults = function(data) {
         var surveyId = data.surveyId();
@@ -188,6 +210,8 @@ var ViewModel = function() {
 vm = new ViewModel();
 ko.applyBindings(vm);
 
+$("#dateFilters").hide(); //initially hide date filters
+
 google.load('visualization', '1', {'packages':['corechart']});
 var chartData;
 var chart;
@@ -213,12 +237,17 @@ function drawCharts() {
 */
 
     for (var x in vm.surveyResults()) {
+        // it would be better to check the length of surveyResults outside of loop
+        // but if the data is empty the length still returns as 1.
+        var haveData = false;
+
         // Create our data table.
         chartData = new google.visualization.DataTable();
         chartData.addColumn('string', 'Answer');
         chartData.addColumn('number', 'Count');
 
         for (var a in vm.surveyResults()[x].answers()) {
+            haveData = true;
             // alert(vm.surveyResults()[0].answers()[a].answerText());
 
             chartData.addRow([vm.surveyResults()[x].answers()[a].answerText(),
@@ -234,10 +263,12 @@ function drawCharts() {
             colors: colors
         };
 
-        // Instantiate and draw our chart, passing in some options.
-        //chart = new google.visualization.PieChart(document.getElementById('chart75'));
-        chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[x].chartId()));
-        chart.draw(chartData, options);
+        if (haveData) {
+            // Instantiate and draw our chart, passing in some options.
+            //chart = new google.visualization.PieChart(document.getElementById('chart75'));
+            chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[x].chartId()));
+            chart.draw(chartData, options);
+        }
     }
 }
 
