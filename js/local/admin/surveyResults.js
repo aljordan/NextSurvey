@@ -11,7 +11,20 @@ var SurveyResult = function(chartId, questionText, answersArray) {
     this.chartId = ko.observable(chartId);
     this.questionText = ko.observable(questionText);
     this.answers = ko.observableArray(answersArray);
-}
+};
+
+var FreeResponseResult = function(questionId, questionText, answersArray) {
+    this.questionId = ko.observable(questionId);
+    this.questionText = ko.observable(questionText);
+    this.answers = ko.observableArray(answersArray);
+};
+
+var Filter = function(questionId, answerId, questionText, answerText) {
+    this.questionId = ko.observable(questionId);
+    this.questionText = ko.observable(questionText);
+    this.answerId = ko.observable(answerId);
+    this.answerText = ko.observable(answerText);
+};
 
 var AnswerCountData = function(answerText, answerCount) {
     this.answerText = ko.observable(answerText);
@@ -29,13 +42,18 @@ var Page = function(pageId, surveyId, pageName) {
 var ViewModel = function() {
     var self = this;
     self.surveyResults = ko.observableArray(null);
+    self.freeResponseResults = ko.observableArray(null);
     self.surveys = ko.observableArray(null);
     self.pages = ko.observableArray(null);
+    self.filters = ko.observableArray(null);
     self.currentSurveyName = ko.observable();
     self.currentPageName = ko.observable();
     self.showHeadings = ko.observable(false);
+    self.filterByDate = ko.observable(false);
     self.beginDateFilter = ko.observable("");
     self.endDateFilter = ko.observable("");
+    var beginDate = "";
+    var endDate = "";
 
 
     this.loadSurveys = function() {
@@ -54,6 +72,25 @@ var ViewModel = function() {
             }
         });
     };
+
+    this.setDates = function() {
+        if (!self.filterByDate()) {
+            //first backup current dates
+            beginDate = self.beginDateFilter();
+            endDate = self.endDateFilter();
+            // now clear dates
+            self.beginDateFilter("");
+            self.endDateFilter("");
+            $("#dateFilters").hide();
+        } else {
+            $("#dateFilters").show();
+            $('#startingDate').val(beginDate);
+            self.beginDateFilter(beginDate);
+            $('#endingDate').val(endDate);
+            self.endDateFilter(endDate);
+        }
+        return true;
+    }
 
     this.loadSurveyResults = function(data) {
         var surveyId = data.surveyId();
@@ -98,6 +135,45 @@ var ViewModel = function() {
                 drawCharts();
             }
         });
+
+        $.ajax({
+            type: "POST",
+            url: 'surveyResultsDB.php',
+            data: {'action': 'loadFreeResponseResults', 'surveyId': surveyId, 'pageId': pageId,
+                'beginDate': self.beginDateFilter, 'endDate': self.endDateFilter},
+            dataType: 'json',
+            success: function(data) {
+                //clear out any existing survey results data
+                self.freeResponseResults([]);
+                var answerArray = [];
+                var previousQuestionId = null;
+                var previousQuestionText = null;
+                var firstTimeThrough = true;
+                for (var x in data) {
+                    var questionId = data[x]['questionId'];
+                    var questionText = data[x]['questionText'];
+                    var answerText = data[x]['answerText'];
+                    if (questionText != previousQuestionText) {
+                        if (!firstTimeThrough) {
+                            self.freeResponseResults.push(new FreeResponseResult(previousQuestionId, previousQuestionText, answerArray));
+                        }
+                        previousQuestionId = questionId;
+                        previousQuestionText = questionText;
+                        answerArray = [];
+                        //answerArray.push(answerText);
+                        answerArray.push({answerText: new ko.observable(answerText)});
+                    } else {
+                        //answerArray.push(answerText);
+                        answerArray.push({answerText: new ko.observable(answerText)});
+                    }
+                    firstTimeThrough = false;
+
+                }
+                // push last results
+                self.freeResponseResults.push(new FreeResponseResult(questionId, questionText, answerArray));
+            }
+        });
+
     };
 
 
@@ -134,6 +210,8 @@ var ViewModel = function() {
 vm = new ViewModel();
 ko.applyBindings(vm);
 
+$("#dateFilters").hide(); //initially hide date filters
+
 google.load('visualization', '1', {'packages':['corechart']});
 var chartData;
 var chart;
@@ -159,12 +237,17 @@ function drawCharts() {
 */
 
     for (var x in vm.surveyResults()) {
+        // it would be better to check the length of surveyResults outside of loop
+        // but if the data is empty the length still returns as 1.
+        var haveData = false;
+
         // Create our data table.
         chartData = new google.visualization.DataTable();
         chartData.addColumn('string', 'Answer');
         chartData.addColumn('number', 'Count');
 
         for (var a in vm.surveyResults()[x].answers()) {
+            haveData = true;
             // alert(vm.surveyResults()[0].answers()[a].answerText());
 
             chartData.addRow([vm.surveyResults()[x].answers()[a].answerText(),
@@ -180,10 +263,12 @@ function drawCharts() {
             colors: colors
         };
 
-        // Instantiate and draw our chart, passing in some options.
-        //chart = new google.visualization.PieChart(document.getElementById('chart75'));
-        chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[x].chartId()));
-        chart.draw(chartData, options);
+        if (haveData) {
+            // Instantiate and draw our chart, passing in some options.
+            //chart = new google.visualization.PieChart(document.getElementById('chart75'));
+            chart = new google.visualization.PieChart(document.getElementById(vm.surveyResults()[x].chartId()));
+            chart.draw(chartData, options);
+        }
     }
 }
 

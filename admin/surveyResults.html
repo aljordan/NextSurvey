@@ -62,16 +62,23 @@
     </div>
 </div>
 <br clear="all">
+
+
 <div>
+    Filter by Date <input type="checkbox" data-bind="checked: filterByDate, click: setDates" />
+</div>
+<div id="dateFilters">
     <span>
         <label>Starting Date</label>
-        <input type="date" data-bind="value: beginDateFilter" title="optional" placeholder="yyyy-mm-dd">
+        <input type="date" id="startingDate" data-bind="value: beginDateFilter" title="optional" placeholder="yyyy-mm-dd">
     </span>
     <span style="margin-left: 5px">
         <label>Ending Date</label>
-        <input type="date" data-bind="value: endDateFilter" title="optional" placeholder="yyyy-mm-dd">
+        <input type="date" id="endingDate" data-bind="value: endDateFilter" title="optional" placeholder="yyyy-mm-dd">
     </span>
 </div>
+
+
 
 
 <div data-bind="visible: showHeadings">
@@ -88,6 +95,18 @@
         </li>-->
         <div data-bind="attr: {id: chartId}" style="width:600px; height:300px"></div>
      </ul>
+</div>
+
+<div>
+    <ul style="margin: 0; padding: 0; list-style-type: none" data-bind="foreach: freeResponseResults">
+        <li style="vertical-align: bottom; margin: 0; padding: 0">
+            <span style="font-weight: bold" data-bind="text: questionText"></span>&nbsp;
+            <ul data-bind="foreach: answers">
+                <li><span data-bind="text: answerText"></span></li>
+            </ul>
+            <br/>
+        </li>
+    </ul>
 </div>
 
 <script type='text/javascript' src='../js/jquery/jquery-2.1.0-min.js'></script>
