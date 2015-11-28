@@ -23,6 +23,7 @@ switch ($action) {
         $pageId = $_POST['pageId'];
         $beginDate = $_POST['beginDate'];
         $endDate = $_POST['endDate'];
+        $questionsFilter = $_POST['questionsFilter'];
         $pageFilter = "";
         $beginDateFilter = "";
         $endDateFilter = "";
@@ -44,7 +45,7 @@ switch ($action) {
             inner join question on question.questionId = response.questionId
             inner join answer on answer.answerId = response.answerId
             inner join page on page.pageId = question.pageId
-            where response.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter
+            where response.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter $questionsFilter
             group by response.questionId, response.answerId
             order by page.pageOrder, question.questionOrder, answer.answerOrder");
 
@@ -54,8 +55,10 @@ switch ($action) {
             $questionText = $row['questionText'];
             $answerCount = $row['answerCount'];
             $answerText = $row['answerText'];
+            $answerId = $row['answerID'];
             $answersReturned[] = array(
-                'questionId' => $questionId, 'questionText' => $questionText, 'answerCount' => $answerCount, 'answerText' => $answerText
+                'questionId' => $questionId, 'questionText' => $questionText, 'answerCount' => $answerCount,
+                'answerText' => $answerText, 'answerId' => $answerId
             );
         }
         echo json_encode($answersReturned);
@@ -66,6 +69,7 @@ switch ($action) {
         $pageId = $_POST['pageId'];
         $beginDate = $_POST['beginDate'];
         $endDate = $_POST['endDate'];
+        $questionsFilter = $_POST['questionsFilter'];
         $pageFilter = "";
         $beginDateFilter = "";
         $endDateFilter = "";
@@ -86,7 +90,7 @@ switch ($action) {
 	      from freeResponse
 	      inner join question on question.questionId = freeResponse.questionId
 	      inner join page on page.pageId = question.pageId
-	      where freeResponse.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter
+	      where freeResponse.surveyId = '$surveyId' $pageFilter $beginDateFilter $endDateFilter $questionsFilter
           order by page.pageOrder, question.questionOrder");
 
         $answersReturned = array();

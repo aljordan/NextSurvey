@@ -64,8 +64,8 @@
 <br clear="all">
 
 
-<div>
-    Filter by Date <input type="checkbox" data-bind="checked: filterByDate, click: setDates" />
+<div data-bind="visible: pages().length > 0">
+    <input type="checkbox" data-bind="checked: filterByDate, click: setDates" /> Filter by Date
 </div>
 <div id="dateFilters">
     <span>
@@ -78,6 +78,25 @@
     </span>
 </div>
 
+
+<div data-bind="visible: pages().length > 0">
+    <input type="checkbox" data-bind="checked: filterByQuestion, click: setQuestions" /> Filter by a question
+</div>
+<div id="questionFilters">
+    <select data-bind="options: surveyResults, optionsText: 'questionText', optionsValue: 'questionId', event: {change: loadFilterQuestionAnswers}" size="8"></select>
+    &nbsp;&nbsp;
+    <select style="width: 100px;" data-bind="options: filterQuestionAnswers, optionsText: 'answerText', optionsValue: 'answerId', event: {change: setQuestionFilter}" size="8"></select>
+    &nbsp;&nbsp;
+    <button style="vertical-align: top;" data-bind="enable: enableAddButton, click: addFilter">Add</button>
+
+</div>
+
+<!-- Why doesn't the following work?-->
+<div>
+    <ul data-bind="foreach: resultsFilters">
+        <li data-bind="text: answerText"></li>
+    </ul>
+</div>
 
 
 
