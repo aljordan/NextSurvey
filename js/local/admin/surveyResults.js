@@ -234,11 +234,13 @@ var ViewModel = function() {
             }
         });
 
-        questionsFilterText = null;
+        questionsFilterText = "";
         if (self.resultsFilters().length > 0) {
-            questionsFilterText = "and freeResponse.userId in (select userId from response where answerId = "
-                + self.resultsFilters()[0].answerId()
-                + " and questionId = " + self.resultsFilters()[0].questionId() +")";
+            ko.utils.arrayForEach(self.resultsFilters(), function(resultFilter) {
+                questionsFilterText += "and freeResponse.userId in (select userId from response where answerId = "
+                    + resultFilter.answerId()
+                    + " and questionId = " + resultFilter.questionId() +") ";
+            });
         }
 
         $.ajax({
